@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -22,7 +23,8 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public Patient create(Patient patient) {
 
-        if (!patientDAO.existsByFirstname(patient.getFirstname())) {
+        if (!patientDAO.existsByFirstnameAndLastnameAndBirthDateAndGenre(patient.getFirstname(),
+                patient.getLastname(),patient.getBirthDate(),patient.getGenre())) {
             
            patientDAO.save(patient);
 
@@ -41,8 +43,45 @@ public class PatientServiceImpl implements PatientService {
 
 
     @Override
-    public Patient findPatient(Patient patient) {
-        return patientDAO.findByFirstname(patient.getFirstname());
+    public Optional<Patient> findPatient(Long id) {
+        return patientDAO.findById(id);
     }
+
+    @Override
+    public Patient savePatient(Patient patient) {
+
+        Optional<Patient> patientToFind = patientDAO.findById(patient.getId());
+
+        if (!patientToFind.isPresent()) {
+            logger.error("Patient not found");
+            return null;
+        }
+        patientToFind.get().setLastname(patient.getLastname());
+        patientToFind.get().setLastname(patient.getLastname());
+        patientToFind.get().setAddress(patient.getAddress());
+        patientToFind.get().setBirthDate(patient.getBirthDate());
+        patientToFind.get().setGenre(patient.getGenre());
+        patientToFind.get().setPhoneNumber(patient.getPhoneNumber());
+
+        patientDAO.save(patientToFind.get());
+
+        return patientToFind.get();
+
+    }
+
+    @Override
+    public Patient deletePatient(Patient patient) {
+        Optional<Patient> patientToFind = patientDAO.findById(patient.getId());
+
+        if (!patientToFind.isPresent()) {
+            logger.error("Patient not found");
+            return null;
+        }
+
+        patientDAO.delete(patientToFind.get());
+
+        return patientToFind.get();
+    }
+
 
 }

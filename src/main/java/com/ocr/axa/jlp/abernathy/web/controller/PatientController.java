@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/patient")
@@ -37,20 +38,20 @@ public class PatientController {
     
     /**
      * 
-     * @param patient (patientName)
+     * @param id (id of the patient)
      * @return information for the patient
      */
-    @GetMapping
+    @GetMapping (path = "/id")
     @ResponseBody
-    public Patient getpatient(@RequestBody Patient patient) {
-        Patient patientFound = patientService.findPatient(patient);
-        if (patientFound == null){
+    public Patient getpatient(@RequestParam long id) {
+        Optional<Patient> patientFound = patientService.findPatient(id);
+        if (!patientFound.isPresent()){
             logger.error("patient not found");
             throw new ControllerException(("Patient not found"));
         }
         else {
             logger.info(" get patient : OK");
-            return patientFound;
+            return patientFound.get();
         }
     }
 
@@ -59,7 +60,7 @@ public class PatientController {
      * @param patient (patientName, password required, pseudo)
      * @return patient created
      */
-    @PostMapping("/patientInfo")
+    @PostMapping("/add")
     public ResponseEntity<Patient> createpatient(@RequestBody Patient patient) {
 
 
@@ -69,17 +70,40 @@ public class PatientController {
         }
 
         Patient patientAdded = patientService.create(patient);
-        
+
         if (patientAdded == null) {
             logger.error("inscriptionPatient : KO");
             throw new ControllerException("patientName already exist");
-        }
-        else {
+        } else {
             logger.info("Add patient OK " + patient.toString());
             return new ResponseEntity(patientAdded, HttpStatus.OK);
         }
-        
     }
+
+        @PostMapping("/update")
+        public Patient updatePatient(@RequestBody Patient patient) {
+            Optional<Patient> patientToFind = patientService.findPatient(patient.getId());
+            if (!patientToFind.isPresent()){
+                logger.error("patient not found");
+                throw new ControllerException(("Patient not found"));
+            }
+
+           return patientService.savePatient(patient);
+
+        }
+
+    @PostMapping("/delete/id")
+    public Patient deletePatient(@RequestParam long id) {
+        Optional<Patient> patientToFind = patientService.findPatient(id);
+        if (!patientToFind.isPresent()){
+            logger.error("patient not found");
+            throw new ControllerException(("Patient not found"));
+        }
+
+        return patientService.deletePatient(patientToFind.get());
+
+    }
+
 
 
 }

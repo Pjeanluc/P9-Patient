@@ -3,6 +3,7 @@ package com.ocr.axa.jlp.abernathy.service;
 import com.ocr.axa.jlp.abernathy.model.Patient;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PatientService {
     
@@ -10,6 +11,10 @@ public interface PatientService {
 
     public List<Patient> findAll();
 
-    public Patient findPatient(Patient patient);
+    public Optional<Patient> findPatient(Long id);
+
+    public Patient savePatient(Patient patient);
+
+    public Patient deletePatient (Patient patient);
 
 }

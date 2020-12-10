@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
         if (!userDAO.existsByUserName(user.getUserName())) {
 
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+           user.setPassword(passwordEncoder.encode(user.getPassword()));
            userDAO.save(user);
 
             return user;
