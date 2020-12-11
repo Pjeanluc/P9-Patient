@@ -29,6 +29,7 @@ public class Patient {
     private Date birthDate;
 
     @NotNull
+    @Column(length = 1)
     private String genre;
 
     @Column(length=100)

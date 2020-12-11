@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.ocr.axa.jlp.abernathy.model.Patient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,53 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User findUser(User user) {
-        return userDAO.findByUserName(user.getUserName());
+    public Optional<User> findUser(Long id) {
+        return userDAO.findById(id);
     }
 
+    @Override
+    public User saveUser(User user) {
+
+        Optional<User> userToFind = userDAO.findById(user.getId());
+
+        if (!userToFind.isPresent()) {
+            logger.error("User not found");
+            return null;
+        }
+        userToFind.get().setUserName(user.getUserName());
+        userToFind.get().setPseudo(user.getPseudo());
+        userToFind.get().setPassword(passwordEncoder.encode(user.getPassword()));
+
+        userDAO.save(userToFind.get());
+
+        return userToFind.get();
+
+    }
+
+    @Override
+    public User deleteUser(User user ) {
+        Optional<User> userToFind = userDAO.findById(user.getId());
+
+        if (!userToFind.isPresent()) {
+            logger.error("user not found");
+            return null;
+        }
+
+        userDAO.delete(userToFind.get());
+
+        return userToFind.get();
+    }
+
+    @Override
+    public User findByUserName(String userName) {
+
+        User userToFind = userDAO.findByUserName(userName);
+
+        if (userToFind == null){
+            logger.error("user not found");
+            return null;
+        }
+
+        return userToFind;
+    }
 }

@@ -1,17 +1,14 @@
 package com.ocr.axa.jlp.abernathy.web.controller;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ocr.axa.jlp.abernathy.model.User;
 import com.ocr.axa.jlp.abernathy.service.ConnectionService;
@@ -30,10 +27,9 @@ public class UserController {
     ConnectionService connectionService;
 
     /**
-     * 
      * @return List of all USER
      */
-    
+
     @GetMapping(path = "/all")
     @ResponseBody
     public List<User> getAllUsers() {
@@ -41,28 +37,49 @@ public class UserController {
         logger.info(" get all user : OK");
         return usersFound;
     }
-    
+
     /**
-     * 
-     * @param user (userName)
+     * @param id
      * @return information for the user
      */
-    @GetMapping
+    @GetMapping(path = "/id")
     @ResponseBody
-    public User getUser(@RequestBody User user) {
-        User userFound = userService.findUser(user);
-        logger.info(" get user : OK");
-        return userFound;
+    public User getUser(@RequestParam long id) {
+        Optional<User> userFound = userService.findUser(id);
+        if (!userFound.isPresent()){
+            logger.error("user not found");
+            throw new ControllerException(("user not found"));
+        }
+        else {
+            logger.info(" get user : OK");
+            return userFound.get();
+        }
     }
 
     /**
-     * 
+     * @param userName (userName)
+     * @return information for the user
+     */
+    @GetMapping(path = "/username")
+    @ResponseBody
+    public User getUserByUserName(@RequestParam String userName) {
+        User userFound = userService.findByUserName(userName);
+        if (userFound == null){
+            logger.error("user not found");
+            throw new ControllerException(("user not found"));
+        }
+        else {
+            logger.info(" get user : OK");
+            return userFound;
+        }
+    }
+
+    /**
      * @param user (userName, password required, pseudo)
      * @return user created
      */
-    @PostMapping("/userInfo")
+    @PostMapping("/add")
     public ResponseEntity<User> createUser(@RequestBody User user) {
-
 
         if (user.getUserName().isEmpty()) {
             logger.error("inscriptionPerson : KO");
@@ -75,42 +92,63 @@ public class UserController {
         }
 
         User userAdded = userService.create(user);
-        
+
         if (userAdded == null) {
             logger.error("inscriptionUser : KO");
             throw new ControllerException("UserName already exist");
-        }
-        else {
+        } else {
             logger.info("Add user OK " + user.toString());
             return new ResponseEntity(userAdded, HttpStatus.OK);
         }
-      
-        
+
+
     }
 
-   /**
-    * 
-    * @param user (userName and password)
-    * @return ok si user/password are matching
-    */
-    @GetMapping("/connect")
-    public ResponseEntity<Boolean> connectUser(@RequestBody User user) {
-
-        if (user.getUserName().isEmpty()) {
-            logger.error("inscriptionPerson : KO");
-            throw new ControllerException("userName is required");
-        }
-        if (user.getPassword().isEmpty()) {
-            logger.error("inscriptionPerson : KO");
-            throw new ControllerException("password is required");
+    @PostMapping("/update")
+    public User updateUser(@RequestBody User user) {
+        Optional<User> userToFind = userService.findUser(user.getId());
+        if (!userToFind.isPresent()) {
+            logger.error("user not found");
+            throw new ControllerException(("user not found"));
         }
 
-        if (connectionService.connectUser(user)) {
-            logger.info("Connect user OK " + user.toString());
-            return new ResponseEntity(true, HttpStatus.OK);
-        } else {
-            logger.error("Connect user KO " + user.toString());
-            throw new ControllerException("user/password not exist");
+        return userService.saveUser(user);
+
+    }
+
+    @PostMapping("/delete/id")
+    public User deleteUser(@RequestParam long id) {
+        Optional<User> userToFind = userService.findUser(id);
+        if (!userToFind.isPresent()) {
+            logger.error("user not found");
+            throw new ControllerException(("user not found"));
+        }
+        return userService.deleteUser(userToFind.get());
+    }
+
+        /**
+         *
+         * @param user (userName and password)
+         * @return ok si user/password are matching
+         */
+        @GetMapping("/connect")
+        public ResponseEntity<Boolean> connectUser (@RequestBody User user){
+
+            if (user.getUserName().isEmpty()) {
+                logger.error("inscriptionPerson : KO");
+                throw new ControllerException("userName is required");
+            }
+            if (user.getPassword().isEmpty()) {
+                logger.error("inscriptionPerson : KO");
+                throw new ControllerException("password is required");
+            }
+
+            if (connectionService.connectUser(user)) {
+                logger.info("Connect user OK " + user.toString());
+                return new ResponseEntity(true, HttpStatus.OK);
+            } else {
+                logger.error("Connect user KO " + user.toString());
+                throw new ControllerException("user/password not exist");
+            }
         }
     }
-}
