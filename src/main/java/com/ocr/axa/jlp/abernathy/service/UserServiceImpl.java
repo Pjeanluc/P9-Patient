@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService {
         userToFind.get().setUserName(user.getUserName());
         userToFind.get().setPseudo(user.getPseudo());
         userToFind.get().setPassword(passwordEncoder.encode(user.getPassword()));
+        userToFind.get().setRole(user.getRole());
 
         userDAO.save(userToFind.get());
 
