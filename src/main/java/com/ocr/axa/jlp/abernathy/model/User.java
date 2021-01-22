@@ -1,6 +1,7 @@
 package com.ocr.axa.jlp.abernathy.model;
 
 import com.sun.istack.NotNull;
+import javax.validation.constraints.NotBlank;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,20 +17,18 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
     private Long id;
-
     @Column(length=100)
-    @NotNull
+    @NotBlank(message = "Username is mandatory")
     private String userName;
-
     @Column(length=100)
-    @NotNull
+    @NotBlank(message = "Password is mandatory")
     private String password;
-
     @Column(length=100)
-    @NotNull
+    @NotBlank(message = "Pseudo is mandatory")
     private String pseudo;
+    @NotBlank(message = "Role is mandatory")
+    private String role;
 
     public User() {
         super();
@@ -73,5 +72,9 @@ public class User {
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
     }
+
+    public String getRole() { return role; }
+
+    public void setRole(String role) { this.role = role; }
 
 }

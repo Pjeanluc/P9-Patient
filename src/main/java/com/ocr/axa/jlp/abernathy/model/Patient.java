@@ -3,6 +3,7 @@ package com.ocr.axa.jlp.abernathy.model;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -25,8 +26,7 @@ public class Patient {
     private String lastname;
 
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date birthDate;
+    private LocalDate birthDate;
 
     @NotNull
     @Column(length = 1)
@@ -44,7 +44,7 @@ public class Patient {
         super();
     }
 
-    public Patient(Long id, String firstname, String lastname, Date birthDate, String genre, String address, String phoneNumber) {
+    public Patient(Long id, String firstname, String lastname, LocalDate birthDate, String genre, String address, String phoneNumber) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -78,19 +78,9 @@ public class Patient {
         this.lastname = lastname;
     }
 
-    public Date getBirthDate() {
-        Date localDate = birthDate;
-        return localDate;
-    }
+    public LocalDate getBirthDate() { return birthDate; }
 
-    public void setBirthDate(Date birthDate) {
-        if (birthDate == null) {
-            this.birthDate = null;
-        }
-        else {
-            this.birthDate = new Date(birthDate.getTime());
-        }
-    }
+    public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate; }
 
     public String getGenre() {
         return genre;

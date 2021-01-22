@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ocr.axa.jlp.abernathy.model.Patient;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Repository
@@ -13,6 +14,6 @@ public interface PatientDAO extends JpaRepository<Patient, Long>{
 
     public boolean existsByFirstnameAndLastnameAndBirthDateAndGenre(String firstname,
                                                                     String lastname,
-                                                                    Date birthDate,
+                                                                    LocalDate birthDate,
                                                                     String genre);
 }

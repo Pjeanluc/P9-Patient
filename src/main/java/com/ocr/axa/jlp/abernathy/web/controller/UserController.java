@@ -81,14 +81,9 @@ public class UserController {
     @PostMapping("/add")
     public ResponseEntity<User> createUser(@RequestBody User user) {
 
-        if (user.getUserName().isEmpty()) {
+        if ((user.getUserName().isEmpty() ) || (user.getPassword().isEmpty()))  {
             logger.error("inscriptionPerson : KO");
-            throw new ControllerException("userName is required");
-        }
-
-        if (user.getPassword().isEmpty()) {
-            logger.error("inscriptionPerson : KO");
-            throw new ControllerException("passeword is required");
+            throw new ControllerException("userName/firstName is required");
         }
 
         User userAdded = userService.create(user);
