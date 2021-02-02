@@ -7,6 +7,7 @@ import com.ocr.axa.jlp.abernathy.web.exceptions.ControllerException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +44,7 @@ public class PatientController {
      */
     @GetMapping (path = "/id")
     @ResponseBody
-    public Patient getpatient(@RequestParam long id) {
+    public Patient getpatient(@RequestParam long id) throws ControllerException {
         Optional<Patient> patientFound = patientService.findPatient(id);
         if (!patientFound.isPresent()){
             logger.error("patient not found");
@@ -60,8 +61,9 @@ public class PatientController {
      * @param patient (patientName, password required, pseudo)
      * @return patient created
      */
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/add")
-    public ResponseEntity<Patient> createpatient(@RequestBody Patient patient) {
+    public ResponseEntity<Patient> createpatient(@RequestBody Patient patient) throws ControllerException {
 
 
         if (patient.getFirstname().isEmpty()) {
@@ -81,7 +83,7 @@ public class PatientController {
     }
 
         @PostMapping("/update")
-        public Patient updatePatient(@RequestBody Patient patient) {
+        public Patient updatePatient(@RequestBody Patient patient) throws ControllerException {
             Optional<Patient> patientToFind = patientService.findPatient(patient.getId());
             if (!patientToFind.isPresent()){
                 logger.error("patient not found");
@@ -93,7 +95,7 @@ public class PatientController {
         }
 
     @PostMapping("/delete/id")
-    public Patient deletePatient(@RequestParam long id) {
+    public Patient deletePatient(@RequestParam long id) throws ControllerException {
         Optional<Patient> patientToFind = patientService.findPatient(id);
         if (!patientToFind.isPresent()){
             logger.error("patient not found");

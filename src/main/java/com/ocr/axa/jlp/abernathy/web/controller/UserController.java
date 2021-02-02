@@ -44,7 +44,7 @@ public class UserController {
      */
     @GetMapping(path = "/id")
     @ResponseBody
-    public User getUser(@RequestParam long id) {
+    public User getUser(@RequestParam long id) throws ControllerException {
         Optional<User> userFound = userService.findUser(id);
         if (!userFound.isPresent()){
             logger.error("user not found");
@@ -57,13 +57,13 @@ public class UserController {
     }
 
     /**
-     * @param userName (userName)
+     * @param username (username)
      * @return information for the user
      */
     @GetMapping(path = "/username")
     @ResponseBody
-    public User getUserByUserName(@RequestParam String userName) {
-        User userFound = userService.findByUserName(userName);
+    public User getUserByUsername(@RequestParam String username) throws ControllerException {
+        User userFound = userService.findByUsername(username);
         if (userFound == null){
             logger.error("user not found");
             throw new ControllerException(("user not found"));
@@ -79,9 +79,9 @@ public class UserController {
      * @return user created
      */
     @PostMapping("/add")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody User user) throws ControllerException {
 
-        if ((user.getUserName().isEmpty() ) || (user.getPassword().isEmpty()))  {
+        if ((user.getUsername().isEmpty() ) || (user.getPassword().isEmpty()))  {
             logger.error("inscriptionPerson : KO");
             throw new ControllerException("userName/firstName is required");
         }
@@ -100,7 +100,7 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public User updateUser(@RequestBody User user) {
+    public User updateUser(@RequestBody User user) throws ControllerException {
         Optional<User> userToFind = userService.findUser(user.getId());
         if (!userToFind.isPresent()) {
             logger.error("user not found");
@@ -112,7 +112,7 @@ public class UserController {
     }
 
     @PostMapping("/delete/id")
-    public User deleteUser(@RequestParam long id) {
+    public User deleteUser(@RequestParam long id) throws ControllerException {
         Optional<User> userToFind = userService.findUser(id);
         if (!userToFind.isPresent()) {
             logger.error("user not found");
@@ -127,9 +127,9 @@ public class UserController {
          * @return ok si user/password are matching
          */
         @GetMapping("/connect")
-        public ResponseEntity<Boolean> connectUser (@RequestBody User user){
+        public ResponseEntity<Boolean> connectUser (@RequestBody User user) throws ControllerException {
 
-            if (user.getUserName().isEmpty()) {
+            if (user.getUsername().isEmpty()) {
                 logger.error("inscriptionPerson : KO");
                 throw new ControllerException("userName is required");
             }

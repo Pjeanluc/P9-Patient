@@ -8,8 +8,8 @@ import com.ocr.axa.jlp.abernathy.model.User;
 @Repository
 public interface UserDAO  extends JpaRepository<User, Long>{
 
-    public User findByUserName(String userName);
+    public User findByUsername(String username);
 
-    public boolean existsByUserName(String email);
+    public boolean existsByUsername(String username);
 
 }

@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(User user) {
 
-        if (!userDAO.existsByUserName(user.getUserName())) {
+        if (!userDAO.existsByUsername(user.getUsername())) {
 
            user.setPassword(passwordEncoder.encode(user.getPassword()));
            userDAO.save(user);
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
             logger.error("User not found");
             return null;
         }
-        userToFind.get().setUserName(user.getUserName());
+        userToFind.get().setUsername(user.getUsername());
         userToFind.get().setPseudo(user.getPseudo());
         userToFind.get().setPassword(passwordEncoder.encode(user.getPassword()));
         userToFind.get().setRole(user.getRole());
@@ -90,9 +90,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUserName(String userName) {
+    public User findByUsername(String username) {
 
-        User userToFind = userDAO.findByUserName(userName);
+        User userToFind = userDAO.findByUsername(username);
 
         if (userToFind == null){
             logger.error("user not found");

@@ -21,7 +21,7 @@ public class UserDAOTest {
     void saveOneUser() {
         // GIVEN
         User userTest = new User();
-        userTest.setUserName("usernametest");
+        userTest.setUsername("usernametest");
         userTest.setPassword("password");
         userTest.setPseudo("pseudotest");
 

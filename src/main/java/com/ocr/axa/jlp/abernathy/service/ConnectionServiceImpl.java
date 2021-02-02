@@ -22,7 +22,7 @@ public class ConnectionServiceImpl implements ConnectionService {
      */
     @Override
     public boolean connectUser(User user) {
-        User userToConnect = userDAO.findByUserName(user.getUserName());
+        User userToConnect = userDAO.findByUsername(user.getUsername());
 
         if (!(userToConnect == null)) {
             if (passwordEncoder.matches(user.getPassword(), userToConnect.getPassword())) {

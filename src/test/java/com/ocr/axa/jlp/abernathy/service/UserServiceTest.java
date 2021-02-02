@@ -40,7 +40,7 @@ public class UserServiceTest {
         User userCreatedTest = userServiceTest.create(userTest);
 
         // THEN
-        assertThat(userCreatedTest.getUserName()).isEqualTo(userNameConst);
+        assertThat(userCreatedTest.getUsername()).isEqualTo(userNameConst);
         assertThat(userCreatedTest.getPseudo()).isEqualTo(pseudoConst);
 
     }

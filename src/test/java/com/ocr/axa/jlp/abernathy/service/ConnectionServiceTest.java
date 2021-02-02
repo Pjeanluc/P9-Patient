@@ -38,11 +38,11 @@ public class ConnectionServiceTest {
     void connectUserTest() {
         // GIVEN
         User userToConnectTest = new User();
-        userToConnectTest.setUserName("username");
+        userToConnectTest.setUsername("username");
         userToConnectTest.setPassword("password");
         User userTest = new User(userNameConst, "", pseudoConst);
         userTest.setPassword(passwordEncoder.encode("password"));
-        Mockito.when(userDAOMock.findByUserName(any(String.class))).thenReturn(userTest);
+        Mockito.when(userDAOMock.findByUsername(any(String.class))).thenReturn(userTest);
 
         // WHEN
         // THEN
@@ -53,11 +53,11 @@ public class ConnectionServiceTest {
     void connectUserFailedTest() {
         // GIVEN
         User userToConnectTest = new User();
-        userToConnectTest.setUserName("username");
+        userToConnectTest.setUsername("username");
         userToConnectTest.setPassword("notthepassword");
         User userTest = new User(userNameConst, "", pseudoConst);
         userTest.setPassword(passwordEncoder.encode("password"));
-        Mockito.when(userDAOMock.findByUserName(any(String.class))).thenReturn(userTest);
+        Mockito.when(userDAOMock.findByUsername(any(String.class))).thenReturn(userTest);
 
         // WHEN
         // THEN

@@ -20,7 +20,7 @@ public class User {
     private Long id;
     @Column(length=100)
     @NotBlank(message = "Username is mandatory")
-    private String userName;
+    private String username;
     @Column(length=100)
     @NotBlank(message = "Password is mandatory")
     private String password;
@@ -34,9 +34,9 @@ public class User {
         super();
     }
 
-    public User(@NotNull String userName, @NotNull String password, @NotNull String pseudo) {
+    public User(@NotNull String username, @NotNull String password, @NotNull String pseudo) {
         super();
-        this.userName = userName;
+        this.username = username;
         this.password = password;
         this.pseudo = pseudo;
     }
@@ -49,12 +49,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String firstname) {
-        this.userName = firstname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
