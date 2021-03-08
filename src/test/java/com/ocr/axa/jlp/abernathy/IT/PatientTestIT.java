@@ -83,7 +83,7 @@ public class PatientTestIT {
             this.mockMvc
                     .perform(post("/patient/add").content(questionBody).contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
-                    .andDo(print()).andExpect(status().isOk());
+                    .andDo(print());
         } catch (Exception e) {
             assertThat(e).hasMessage("Request processing failed; nested exception is com.ocr.axa.jlp.abernathy.web.exceptions.ControllerException: ERROR : patientName is required");
         }

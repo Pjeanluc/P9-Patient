@@ -29,7 +29,7 @@ public class userTestIT {
         // GIVEN
 
         String questionBody = "{"+
-                "\"userName\": \"user2\","+
+                "\"username\": \"user2\","+
                 "\"password\": \"password\","+
                 "\"pseudo\": \"user1\""+
                 "}";

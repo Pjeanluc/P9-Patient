@@ -1,13 +1,11 @@
 package com.ocr.axa.jlp.abernathy.web.controller;
 
 import com.ocr.axa.jlp.abernathy.model.Patient;
-import com.ocr.axa.jlp.abernathy.service.ConnectionService;
 import com.ocr.axa.jlp.abernathy.service.PatientService;
 import com.ocr.axa.jlp.abernathy.web.exceptions.ControllerException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -63,7 +61,7 @@ public class PatientController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/add")
-    public ResponseEntity<Patient> createpatient(@RequestBody Patient patient) throws ControllerException {
+    public ResponseEntity<Patient> createpatient(@RequestBody Patient patient)  {
 
 
         if (patient.getFirstname().isEmpty()) {

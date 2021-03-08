@@ -83,7 +83,7 @@ class UserControllerTest {
                 .perform(get("/user/id?id=0")
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$..userName").value(userNameConst));
+                .andExpect(jsonPath("$..username").value(userNameConst));
     }
 
     @Test
@@ -155,7 +155,7 @@ class UserControllerTest {
                 .perform(post("/user/delete/id?id=0")
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$..userName").value(userNameConst));
+                .andExpect(jsonPath("$..username").value(userNameConst));
     }
 
     public static String asJsonString(final Object obj) {

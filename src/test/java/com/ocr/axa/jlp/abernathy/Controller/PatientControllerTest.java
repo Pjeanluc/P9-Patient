@@ -1,23 +1,18 @@
 package com.ocr.axa.jlp.abernathy.Controller;
 
-import static com.ocr.axa.jlp.abernathy.Controller.UserControllerTest.asJsonString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ocr.axa.jlp.abernathy.model.Patient;
-import com.ocr.axa.jlp.abernathy.model.User;
 import com.ocr.axa.jlp.abernathy.service.PatientService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
