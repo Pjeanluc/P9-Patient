@@ -1,9 +1,7 @@
 package com.ocr.axa.jlp.abernathy.config;
 
-import java.util.ResourceBundle;
-
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
 import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;
@@ -15,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ResourceBundle;
+
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final Logger logger = LogManager.getLogger(SecurityConfig.class);
@@ -22,18 +22,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable().authorizeRequests().anyRequest().authenticated().and().httpBasic();
-//        http
-//        .requiresChannel()
-//        .anyRequest()
-//        .requiresSecure();
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/", "/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger-resources/configuration/ui", "/swagger-ui.html").permitAll()
+                .anyRequest().authenticated().and().httpBasic();
 
-//        http.authorizeRequests().antMatchers("/").permitAll().and()
-//        .authorizeRequests().antMatchers("/console/**").permitAll();
-//
-//        http.csrf().disable();
-//        http.headers().frameOptions().disable();
-//        http.headers().frameOptions().sameOrigin();
     }
     
     @Autowired
