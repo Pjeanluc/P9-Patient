@@ -1,4 +1,4 @@
-#P9-Patient
+# P9-Patient
 Micro-service Patient manage patients information on Mediscreen application.
 this micro-service manage user informations.
 
@@ -10,18 +10,18 @@ this micro-service manage user informations.
 - Docker
 
 ## Installation
-###Host file
+### Host file
 
 - 127.0.0.1 note
 - 127.0.0.1 assessment
 - 127.0.0.1 webapp
 - 127.0.0.1 patient
 
-###Docker image construction in project directory
+### Docker image construction in project directory
 ~~~
 docker build --build -t patient .
 ~~~
-###Docker execution
+### Docker execution
 if docker-compose is not use
 ~~~
 docker run -p 8084:8084 --name P9-patient patient
@@ -35,9 +35,7 @@ docker-compose up -d
 - execute script create-table.sql to create tables and initiate users 
 
 ## Documentation
- ~~~
  http://localhost:8084/swagger-ui.html
- ~~~
    
 ## Global architecture
 ![alt text](schema.jpg)
