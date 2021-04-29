@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -78,6 +79,26 @@ class PatientControllerTest {
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$..firstname").value(patientNameConst));
     }
+
+    @Test
+    void getFamilyPatientControllerTest() throws Exception {
+
+        // GIVEN
+        LocalDate date =LocalDate.parse("2000-01-01");
+        patientMock = new Patient(0L,patientNameConst, "",date,"","","" );
+        List<Patient> patients = new ArrayList<>();
+        patients.add(patientMock);
+
+        Mockito.when(patientService.findPatientsByFamily(anyString())).thenReturn(patients);
+
+        // WHEN
+        // THEN
+        this.mockMvc
+                .perform(get("/patient/family?lastname=family")
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andDo(print()).andExpect(status().isOk());
+    }
+
     @Test
     void SavePatientControllerTest() throws Exception {
 

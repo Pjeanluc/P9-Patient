@@ -17,4 +17,5 @@ public interface PatientService {
 
     public Patient deletePatient (Patient patient);
 
+    List<Patient> findPatientsByFamily(String lastname);
 }

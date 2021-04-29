@@ -83,5 +83,12 @@ public class PatientServiceImpl implements PatientService {
         return patientToFind.get();
     }
 
+    @Override
+    public List<Patient> findPatientsByFamily(String lastname) {
+
+        return patientDAO.findByLastname(lastname);
+
+    }
+
 
 }

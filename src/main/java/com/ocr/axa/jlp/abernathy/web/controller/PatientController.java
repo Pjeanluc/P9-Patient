@@ -55,6 +55,25 @@ public class PatientController {
     }
 
     /**
+     *
+     * @param lastname (lastname of the family)
+     * @return informations for all patient with same lastname
+     */
+    @GetMapping (path = "/family")
+    @ResponseBody
+    public List<Patient> getPatientsSameFamily(@RequestParam String lastname) throws ControllerException {
+        List<Patient> patients = patientService.findPatientsByFamily(lastname);
+        if (patients.isEmpty()){
+            logger.error("patient not found");
+            throw new ControllerException(("Patient not found"));
+        }
+        else {
+            logger.info(" get patient by family : OK");
+            return patients;
+        }
+    }
+
+    /**
      * 
      * @param patient (patientName, password required, pseudo)
      * @return patient created
